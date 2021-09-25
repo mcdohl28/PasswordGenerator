@@ -36,7 +36,7 @@ window = sg.Window("Password Generator Demo", layout, margins=(100, 50))
 while True:
     event, values = window.read()
     # End program if user closes window or
-    # presses the OK button
+    # presses the certain button for certain event.
     if event == "Exit" or event == sg.WIN_CLOSED:
         print("event[-exit-] is triggered.")
         break
