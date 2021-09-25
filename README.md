@@ -1,4 +1,4 @@
-# PasswordGenerator
+# Password Generator
 My sample project of Password Generator.
 Project is coded based on Python 3.
 
