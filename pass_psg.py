@@ -1,4 +1,6 @@
-# This is main module for password generator.
+"""
+    The module creates a UI and runs a random generated password at 10 secs interval.
+"""
 import os
 import logging
 from logging import handlers
@@ -62,10 +64,10 @@ progress_count = 0
 
 
 def generate_password():
-    '''
+    """
     The function returns a random generated password.
     :return: a random password
-    '''
+    """
 
     lower = "abcdefghijklmnopqrstuvwxyz"
     upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
