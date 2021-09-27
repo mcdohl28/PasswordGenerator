@@ -1,6 +1,6 @@
 import os
 import logging
-import logging.handlers as handlers
+from logging import handlers
 import random
 import time
 import PySimpleGUI as sg
@@ -62,9 +62,9 @@ def generate_password():
     upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     numbers = "0123456789"
     symbols = "[]{}()*;/,_-"
-    all = lower + upper + numbers + symbols
+    combination = lower + upper + numbers + symbols
     length = 16
-    password = "".join(random.sample(all, length))
+    password = "".join(random.sample(combination, length))
     logger.debug("[+] Generated Password:" + password)
     return password
 
