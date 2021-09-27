@@ -1,3 +1,4 @@
+# This is main module for password generator.
 import os
 import logging
 from logging import handlers
