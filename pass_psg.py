@@ -100,7 +100,8 @@ def main():
             logger.info("[+] event[-generate-] ended.")
         if event == "-COPY-":
             logger.info("[+] event[-copy-] is triggered.")
-            copied_text = window.Element('-TEXTBOX-').get()
+            #copied_text = window.Element('-TEXTBOX-').get()
+            copied_text = values['-TEXTBOX-']
             pyperclip.copy(copied_text)
             logger.info("[+] event[-copy-] Text value copied.")
             logger.info("[+] event[-copy-] ended.")
