@@ -78,6 +78,10 @@ def generate_password():
 
 
 def main():
+    """
+    The main function that is triggered when program runs.
+    :return: None
+    """
     secs = CONST_TIMER
 
     # create an event loop
