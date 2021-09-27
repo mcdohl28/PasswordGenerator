@@ -1,3 +1,4 @@
+# noqa pylint: C0103
 import os
 import logging
 from logging import handlers
