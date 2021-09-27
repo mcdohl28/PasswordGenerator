@@ -59,9 +59,6 @@ layout = [
 # create the window
 window = sg.Window("Password Generator Demo", layout, margins=(100, 50), finalize=True)
 
-secs = CONST_TIMER
-progress_count = 0
-
 
 def generate_password():
     """
@@ -80,35 +77,41 @@ def generate_password():
     return password
 
 
-# create an event loop
-while True:
-    event, values = window.read(timeout=CONST_TIMER)
-    # End program if user closes window or
+def main():
+    secs = CONST_TIMER
 
-    # presses the certain button for certain event.
-    if event in ("Exit", sg.WIN_CLOSED):
-        logger.info("[+] event[-exit-] is triggered.")
-        break
-    if event == "-GENERATE-":
-        logger.info("[+] event[-generate-] is triggered.")
-        generated_password = generate_password()
-        window['-TEXTBOX-'].update(generated_password)
-        logger.info("[+] event[-generate-] ended.")
-    if event == "-COPY-":
-        logger.info("[+] event[-copy-] is triggered.")
-        copied_text = window.Element('-TEXTBOX-').get()
-        pyperclip.copy(copied_text)
-        logger.info("[+] event[-copy-] Text value copied.")
-        logger.info("[+] event[-copy-] ended.")
-    if event == sg.TIMEOUT_KEY:
-        if secs == CONST_TIMER:
+    # create an event loop
+    while True:
+        event, values = window.read(timeout=CONST_TIMER)
+        # End program if user closes window or
+
+        # presses the certain button for certain event.
+        if event in ("Exit", sg.WIN_CLOSED):
+            logger.info("[+] event[-exit-] is triggered.")
+            break
+        if event == "-GENERATE-":
+            logger.info("[+] event[-generate-] is triggered.")
             generated_password = generate_password()
             window['-TEXTBOX-'].update(generated_password)
-        time.sleep(1)
-        secs = secs-1
-        window['-TEXT-'].update(secs)
-        if secs == 0:
-            secs = CONST_TIMER
-        continue
+            logger.info("[+] event[-generate-] ended.")
+        if event == "-COPY-":
+            logger.info("[+] event[-copy-] is triggered.")
+            copied_text = window.Element('-TEXTBOX-').get()
+            pyperclip.copy(copied_text)
+            logger.info("[+] event[-copy-] Text value copied.")
+            logger.info("[+] event[-copy-] ended.")
+        if event == sg.TIMEOUT_KEY:
+            if secs == CONST_TIMER:
+                generated_password = generate_password()
+                window['-TEXTBOX-'].update(generated_password)
+            time.sleep(1)
+            secs = secs-1
+            window['-TEXT-'].update(secs)
+            if secs == 0:
+                secs = CONST_TIMER
+            continue
 
-window.close()
+    window.close()
+
+
+main()
