@@ -118,4 +118,5 @@ def main():
     window.close()
 
 
+# program start from point.
 main()
