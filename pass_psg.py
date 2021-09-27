@@ -31,7 +31,6 @@ sg.theme("Dark2")
 # ---- Define the column layout ----
 input_column = [
     [
-        #sg.Button("Generate password", key="-GENERATE-"),
         sg.Text('Random 16 character password: '),
         sg.InputText(key="-TEXTBOX-", disabled=True),
         sg.Text('', key="-TEXT-"),
@@ -52,10 +51,10 @@ layout = [
 
 # create the window
 window = sg.Window("Password Generator Demo", layout, margins=(100, 50), finalize=True)
-#progress_bar = window['progressbar']
 
 secs = CONST_TIMER
 progress_count = 0
+
 
 def generate_password():
     lower = "abcdefghijklmnopqrstuvwxyz"
@@ -98,11 +97,6 @@ while True:
         window['-TEXT-'].update(secs)
         if secs == 0:
             secs = CONST_TIMER
-        #progress_count = progress_count+100
-        #progress_bar.UpdateBar(progress_count)
-        #print(secs)
         continue
 
 window.close()
-
-
