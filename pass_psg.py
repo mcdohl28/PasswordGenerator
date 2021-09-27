@@ -1,7 +1,62 @@
 import PySimpleGUI as sg
 import pyperclip
 import random
+import time
+import logging
+import logging.handlers as handlers
+import os
 
+# Check for path exist.
+if not os.path.exists('log'):
+    os.makedirs('log')
+
+logger = logging.getLogger('password-generator-app')
+logger.setLevel(logging.DEBUG)
+
+# Define log format
+formatter = logging.Formatter('[%(asctime)s] - %(levelname)s - %(message)s')
+
+# Setting log file location, when to rotate the log and number of files to keep.
+logHandler = handlers.TimedRotatingFileHandler('log/pass-psg.log', when='midnight', interval=1, backupCount=7)
+logHandler.setLevel(logging.DEBUG)
+
+# Set our logHandler's formatter
+logHandler.setFormatter(formatter)
+logger.addHandler(logHandler)
+
+CONST_TIMER = 10
+
+sg.theme("DarkBlue")
+
+# ---- Define the column layout ----
+input_column = [
+    [
+        #sg.Button("Generate password", key="-GENERATE-"),
+        sg.Text('Random 16 character password: '),
+        sg.InputText(key="-TEXTBOX-", disabled=True),
+        sg.Text('', key="-TEXT-"),
+        sg.Button("copy", key="-COPY-"),
+     ]
+]
+
+timer_column = [
+    [
+        sg.ProgressBar(1000, orientation='h', size=(20, 20), key='progressbar')
+    ]
+]
+
+# ---- full layout -----
+layout = [
+    input_column,
+    timer_column
+]
+
+# create the window
+window = sg.Window("Password Generator Demo", layout, margins=(100, 50), finalize=True)
+progress_bar = window['progressbar']
+
+secs = CONST_TIMER
+progress_count = 0
 
 def generate_password():
     lower = "abcdefghijklmnopqrstuvwxyz"
@@ -11,45 +66,44 @@ def generate_password():
     all = lower + upper + numbers + symbols
     length = 16
     password = "".join(random.sample(all, length))
-    print("Generated Password:" + password)
+    logger.debug("[+] Generated Password:" + password)
     return password
 
 
-sg.theme("DarkBlue")
-input_columns = [
-    [
-        sg.Button("Generate password", key="-GENERATE-"),
-        sg.InputText(key="-TEXTBOX-"),
-        sg.Button("copy", key="-COPY-"),
-     ]
-]
-
-# ---- full layout -----
-layout = [
-    input_columns
-]
-
-# create the window
-window = sg.Window("Password Generator Demo", layout, margins=(100, 50))
-
 # create an event loop
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=CONST_TIMER)
     # End program if user closes window or
+
     # presses the certain button for certain event.
     if event == "Exit" or event == sg.WIN_CLOSED:
-        print("event[-exit-] is triggered.")
+        logger.info("[+] event[-exit-] is triggered.")
         break
     if event == "-GENERATE-":
-        print("event[-generate-] is triggered.")
+        logger.info("[+] event[-generate-] is triggered.")
         generated_password = generate_password()
-        window.Element('-TEXTBOX-').update(generated_password)
-        print("event[-generate-] ended.")
+        window['-TEXTBOX-'].update(generated_password)
+        logger.info("[+] event[-generate-] ended.")
     if event == "-COPY-":
-        print("event[-copy-] is triggered.")
+        logger.info("[+] event[-copy-] is triggered.")
         copied_text = window.Element('-TEXTBOX-').get()
         pyperclip.copy(copied_text)
-        print("event[-copy-] Text value copied.")
-        print("event[-copy-] ended.")
+        logger.info("[+] event[-copy-] Text value copied.")
+        logger.info("[+] event[-copy-] ended.")
+    if event == sg.TIMEOUT_KEY:
+        if secs == CONST_TIMER:
+            generated_password = generate_password()
+            window['-TEXTBOX-'].update(generated_password)
+        time.sleep(1)
+        secs = secs-1
+        window['-TEXT-'].update(secs)
+        if secs == 0:
+            secs = CONST_TIMER
+        #progress_count = progress_count+100
+        #progress_bar.UpdateBar(progress_count)
+        #print(secs)
+        continue
 
 window.close()
+
+
