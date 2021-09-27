@@ -26,7 +26,7 @@ logger.addHandler(logHandler)
 
 CONST_TIMER = 10
 
-sg.theme("DarkBlue")
+sg.theme("Dark2")
 
 # ---- Define the column layout ----
 input_column = [
@@ -47,13 +47,12 @@ timer_column = [
 
 # ---- full layout -----
 layout = [
-    input_column,
-    timer_column
+    input_column
 ]
 
 # create the window
 window = sg.Window("Password Generator Demo", layout, margins=(100, 50), finalize=True)
-progress_bar = window['progressbar']
+#progress_bar = window['progressbar']
 
 secs = CONST_TIMER
 progress_count = 0
