@@ -1,10 +1,11 @@
-import PySimpleGUI as sg
-import pyperclip
-import random
-import time
+import os
 import logging
 import logging.handlers as handlers
-import os
+import random
+import time
+import PySimpleGUI as sg
+import pyperclip
+
 
 # Check for path exist.
 if not os.path.exists('log'):
@@ -74,7 +75,7 @@ while True:
     # End program if user closes window or
 
     # presses the certain button for certain event.
-    if event == "Exit" or event == sg.WIN_CLOSED:
+    if event in ("Exit", sg.WIN_CLOSED):
         logger.info("[+] event[-exit-] is triggered.")
         break
     if event == "-GENERATE-":
