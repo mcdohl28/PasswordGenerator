@@ -76,7 +76,7 @@ def generate_password():
     combination = lower + upper + numbers + symbols
     length = 16
     password = "".join(random.sample(combination, length))
-    logger.debug("[+] Generated Password:" + password)
+    logger.debug("[+] Generated Password: %s", password)
     return password
 
 
