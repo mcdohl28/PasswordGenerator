@@ -1,4 +1,3 @@
-# noqa pylint: C0103
 import os
 import logging
 from logging import handlers
@@ -19,7 +18,10 @@ logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('[%(asctime)s] - %(levelname)s - %(message)s')
 
 # Setting log file location, when to rotate the log and number of files to keep.
-logHandler = handlers.TimedRotatingFileHandler('log/pass-psg.log', when='midnight', interval=1, backupCount=7)
+logHandler = handlers.TimedRotatingFileHandler('log/pass-psg.log',
+                                               when='midnight',
+                                               interval=1,
+                                               backupCount=7)
 logHandler.setLevel(logging.DEBUG)
 
 # Set our logHandler's formatter
@@ -59,6 +61,11 @@ progress_count = 0
 
 
 def generate_password():
+    '''
+    The function returns a random generated password.
+    :return: a random password
+    '''
+
     lower = "abcdefghijklmnopqrstuvwxyz"
     upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     numbers = "0123456789"
